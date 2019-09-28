@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="react,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="React生命周期 一、组件初始化阶段（initialization）constructor()用来做一些组件的初始化工作，如定义this.state的初始内容。1234567import React, &amp;#123; Component &amp;#125; from &apos;react&apos;;class App extends Component &amp;#123;  constructor(props) &amp;#123;">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React 生命周期">
+<meta property="og:url" content="http://techstudyblog.top/2019/09/28/react-life-cycle/index.html">
+<meta property="og:site_name" content="Study Blog">
+<meta property="og:description" content="React生命周期 一、组件初始化阶段（initialization）constructor()用来做一些组件的初始化工作，如定义this.state的初始内容。1234567import React, &amp;#123; Component &amp;#125; from &apos;react&apos;;class App extends Component &amp;#123;  constructor(props) &amp;#123;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://techstudyblog.top/2019/09/28/react-life-cycle/react.png">
+<meta property="og:image" content="http://techstudyblog.top/2019/09/28/react-life-cycle/react-fiber.png">
+<meta property="og:updated_time" content="2019-09-28T03:08:14.349Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React 生命周期">
+<meta name="twitter:description" content="React生命周期 一、组件初始化阶段（initialization）constructor()用来做一些组件的初始化工作，如定义this.state的初始内容。1234567import React, &amp;#123; Component &amp;#125; from &apos;react&apos;;class App extends Component &amp;#123;  constructor(props) &amp;#123;">
+<meta name="twitter:image" content="http://techstudyblog.top/2019/09/28/react-life-cycle/react.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://techstudyblog.top/2019/09/28/react-life-cycle/">
+
+
+
+
+
+  <title>React 生命周期 | Study Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Study Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不仅有工作，更有生活,人生需要多经历，才会懂得珍惜</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techstudyblog.top/2019/09/28/react-life-cycle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yezi">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Study Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React 生命周期</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-28T10:57:11+08:00">
+                2019-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="React生命周期"><a href="#React生命周期" class="headerlink" title="React生命周期"></a>React生命周期</h3><p><img src="/2019/09/28/react-life-cycle/react.png" alt="react-life-cycle"></p>
+<h4 id="一、组件初始化阶段（initialization）"><a href="#一、组件初始化阶段（initialization）" class="headerlink" title="一、组件初始化阶段（initialization）"></a>一、组件初始化阶段（initialization）</h4><p>constructor()用来做一些组件的初始化工作，如定义this.state的初始内容。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>App类继承了react Component这个基类，也就继承这个react的基类，才能有render(),生命周期等方法可以使用。<br>super(props)用来调用基类的构造方法( constructor() ), 也将父组件的props注入给子组件，功子组件读取(组件中props只读不可变，state可变)。<br><a id="more"></a></p>
+<h4 id="二、是组件的挂载阶段-Mounting"><a href="#二、是组件的挂载阶段-Mounting" class="headerlink" title="二、是组件的挂载阶段 (Mounting)"></a>二、是组件的挂载阶段 (Mounting)</h4><p><strong>此阶段分为componentWillMount，render，componentDidMount三个时期。</strong></p>
+<h5 id="componentWillMount"><a href="#componentWillMount" class="headerlink" title="componentWillMount:"></a>componentWillMount:</h5><p>在组件挂载到DOM前调用，且只会被调用一次，在这边调用this.setState不会引起组件重新渲染，也可以把写在这边的内容提前到constructor()中，所以项目中很少用。</p>
+<h5 id="render"><a href="#render" class="headerlink" title="render:"></a>render:</h5><p>根据组件的props和state（无两者的重传递和重赋值，论值是否有变化，都可以引起组件重新render） ，return 一个React元素（描述组件，即UI），不负责组件实际渲染工作，之后由React自身根据此元素去渲染出页面DOM。render是纯函数（Pure function：函数的返回结果只依赖于它的参数；函数执行过程里面没有副作用），不能在里面执行this.setState，会有改变组件状态的副作用。</p>
+<h5 id="componentDidMount"><a href="#componentDidMount" class="headerlink" title="componentDidMount:"></a>componentDidMount:</h5><p>组件挂载到DOM后调用，且只会被调用一次</p>
+<h3 id="三、组件的更新阶段-update"><a href="#三、组件的更新阶段-update" class="headerlink" title="三、组件的更新阶段(update)"></a>三、组件的更新阶段(update)</h3><p>etState引起的state更新或父组件重新render引起的props更新，更新后的state和props相对之前无论是否有变化，都将引起子组件的重新render。<br><strong>此阶段分为componentWillReceiveProps，shouldComponentUpdate，componentWillUpdate，render，componentDidUpdate</strong></p>
+<h5 id="componentWillReceiveProps-nextProps"><a href="#componentWillReceiveProps-nextProps" class="headerlink" title="componentWillReceiveProps(nextProps)"></a>componentWillReceiveProps(nextProps)</h5><p>此方法只调用于props引起的组件更新过程中，参数nextProps是父组件传给当前组件的新props。但父组件render方法的调用不能保证重传给当前组件的props是有变化的，所以在此方法中根据nextProps和this.props来查明重传的props是否改变，以及如果改变了要执行啥，比如根据新的props调用this.setState出发当前组件的重新render</p>
+<h5 id="shouldComponentUpdate-nextProps-nextState"><a href="#shouldComponentUpdate-nextProps-nextState" class="headerlink" title="shouldComponentUpdate(nextProps, nextState)"></a>shouldComponentUpdate(nextProps, nextState)</h5><p>此方法通过比较nextProps，nextState及当前组件的this.props，this.state，返回true时当前组件将继续执行更新过程，返回false则当前组件更新停止，以此可用来减少组件的不必要渲染，优化组件性能。</p>
+<h5 id="componentWillUpdate-nextProps-nextState"><a href="#componentWillUpdate-nextProps-nextState" class="headerlink" title="componentWillUpdate(nextProps, nextState)"></a>componentWillUpdate(nextProps, nextState)</h5><p>此方法在调用render方法前执行，在这边可执行一些组件更新发生前的工作，一般较少用。</p>
+<h5 id="render-1"><a href="#render-1" class="headerlink" title="render"></a>render</h5><p>render方法在上文讲过，这边只是重新调用。</p>
+<h5 id="componentDidUpdate-prevProps-prevState"><a href="#componentDidUpdate-prevProps-prevState" class="headerlink" title="componentDidUpdate(prevProps, prevState)"></a>componentDidUpdate(prevProps, prevState)</h5><p>此方法在组件更新后被调用，可以操作组件更新的DOM，prevProps和prevState这两个参数指的是组件更新前的props和state</p>
+<p><strong> 组件件更新有两类（三种）情况：</strong></p>
+<h4 id="1-父组件重新render"><a href="#1-父组件重新render" class="headerlink" title="1.父组件重新render"></a>1.父组件重新render</h4><p>父组件重新render引起子组件重新render的情况有两种：一种是:直接使用,每当父组件重新render导致的重传props，子组件将直接跟着重新渲染，无论props是否有变化。可通过shouldComponentUpdate方法优化。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">   shouldComponentUpdate(nextProps)&#123; <span class="comment">// 应该使用这个方法，否则无论props是否有变化都将会导致组件跟着重新渲染</span></span><br><span class="line">        <span class="keyword">if</span>(nextProps.someThings === <span class="keyword">this</span>.props.someThings)&#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;this.props.someThings&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外一种是:.在componentWillReceiveProps方法中，将props转换成自己的state<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lass Child extends Component &#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            someThings: props.someThings</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    componentWillReceiveProps(nextProps) &#123; <span class="comment">// 父组件重传props时就会调用这个方法</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="2-组件本身调用setState，无论state有没有变化。可通过shouldComponentUpdate方法优化"><a href="#2-组件本身调用setState，无论state有没有变化。可通过shouldComponentUpdate方法优化" class="headerlink" title="2.组件本身调用setState，无论state有没有变化。可通过shouldComponentUpdate方法优化"></a>2.组件本身调用setState，无论state有没有变化。可通过shouldComponentUpdate方法优化</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">   <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">          someThings:<span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   shouldComponentUpdate(nextStates)&#123; <span class="comment">// 应该使用这个方法，否则无论state是否有变化都将会导致组件重新渲染</span></span><br><span class="line">        <span class="keyword">if</span>(nextStates.someThings === <span class="keyword">this</span>.state.someThings)&#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="comment">// 虽然调用了setState ，但state并无变化</span></span><br><span class="line">        <span class="keyword">const</span> preSomeThings = <span class="keyword">this</span>.state.someThings</span><br><span class="line">         <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            someThings: preSomeThings</span><br><span class="line">         &#125;)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onClick</span> = <span class="string">&#123;this.handleClick&#125;</span>&gt;</span>&#123;this.state.someThings&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="四、卸载阶段"><a href="#四、卸载阶段" class="headerlink" title="四、卸载阶段"></a>四、卸载阶段</h4><p>此阶段只有一个生命周期方法：componentWillUnmount<br><strong>omponentWillUnmount</strong><br>此方法在组件被卸载前调用，可以在这里执行一些清理工作，比如清除组件中使用的定时器，清除componentDidMount中手动创建的DOM元素等，以避免引起内存泄漏。</p>
+<h3 id="React-v16-4-的生命周期"><a href="#React-v16-4-的生命周期" class="headerlink" title="React v16.4 的生命周期"></a>React v16.4 的生命周期</h3><p><img src="/2019/09/28/react-life-cycle/react-fiber.png" alt="fiber-life-cycle"></p>
+<p>新引入了两个新的生命周期函数：<strong>getDerivedStateFromProps，getSnapshotBeforeUpdate</strong></p>
+<h4 id="getDerivedStateFromProps"><a href="#getDerivedStateFromProps" class="headerlink" title="getDerivedStateFromProps"></a>getDerivedStateFromProps</h4><p>getDerivedStateFromProps无论是Mounting还是Updating，也无论是因为什么引起的Updating，全部都会被调用。除了shouldComponentUpdate，其他在render函数之前的所有函数（componentWillMount，componentWillReceiveProps，componentWillUpdate）都被getDerivedStateFromProps替代<br>static getDerivedStateFromProps(props, state) 在组件创建时和更新时的render方法之前调用，它应该返回一个对象来更新状态，或者返回null来不更新任何内容。</p>
+<h4 id="getSnapshotBeforeUpdate"><a href="#getSnapshotBeforeUpdate" class="headerlink" title="getSnapshotBeforeUpdate"></a>getSnapshotBeforeUpdate</h4><p>被调用于render之后，可以读取但无法使用DOM的时候。它使您的组件可以在可能更改之前从DOM捕获一些信息（例如滚动位置）。此生命周期返回的任何值都将作为参数传递给componentDidUpdate（）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScrollingList</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.listRef = React.createRef();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getSnapshotBeforeUpdate(prevProps, prevState) &#123;</span><br><span class="line">    <span class="comment">//我们是否要添加新的 items 到列表?</span></span><br><span class="line">    <span class="comment">// 捕捉滚动位置，以便我们可以稍后调整滚动.</span></span><br><span class="line">    <span class="keyword">if</span> (prevProps.list.length &lt; <span class="keyword">this</span>.props.list.length) &#123;</span><br><span class="line">      <span class="keyword">const</span> list = <span class="keyword">this</span>.listRef.current;</span><br><span class="line">      <span class="keyword">return</span> list.scrollHeight - list.scrollTop;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidUpdate(prevProps, prevState, snapshot) &#123;</span><br><span class="line">    <span class="comment">//如果我们有snapshot值, 我们已经添加了 新的items.</span></span><br><span class="line">    <span class="comment">// 调整滚动以至于这些新的items 不会将旧items推出视图。</span></span><br><span class="line">    <span class="comment">// (这边的snapshot是 getSnapshotBeforeUpdate方法的返回值)</span></span><br><span class="line">    <span class="keyword">if</span> (snapshot !== <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> list = <span class="keyword">this</span>.listRef.current;</span><br><span class="line">      list.scrollTop = list.scrollHeight - snapshot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div ref=&#123;<span class="keyword">this</span>.listRef&#125;&gt;&#123;<span class="comment">/* ...contents... */</span>&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>组件生命周期概述</strong></p>
+<h4 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1.初始化"></a>1.初始化</h4><p>在组件初始化阶段会执行</p>
+<ol>
+<li>constructor</li>
+<li>static getDerivedStateFromProps()</li>
+<li>componentWillMount() / UNSAFE_componentWillMount()</li>
+<li>render()</li>
+<li>componentDidMount()<br>####<br>2.更新阶段<br>props或state的改变可能会引起组件的更新，组件重新渲染的过程中会调用以下方法：</li>
+<li>componentWillReceiveProps() / UNSAFE_componentWillReceiveProps()</li>
+<li>static getDerivedStateFromProps()</li>
+<li>shouldComponentUpdate()</li>
+<li>componentWillUpdate() / UNSAFE_componentWillUpdate()</li>
+<li>render()</li>
+<li>getSnapshotBeforeUpdate()</li>
+<li>componentDidUpdate()</li>
+</ol>
+<h4 id="3-卸载阶段"><a href="#3-卸载阶段" class="headerlink" title="3.卸载阶段"></a>3.卸载阶段</h4><p>componentWillUnmount()<br>4.错误处理<br>componentDidCatch()</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/20/js-traverse/" rel="next" title="forEach、for in、for of的区别，Set和Map">
+                <i class="fa fa-chevron-left"></i> forEach、for in、for of的区别，Set和Map
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="yezi">
+          <p class="site-author-name" itemprop="name">yezi</p>
+           
+              <p class="site-description motion-element" itemprop="description">越努力越幸运！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#React生命周期"><span class="nav-number">1.</span> <span class="nav-text">React生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、组件初始化阶段（initialization）"><span class="nav-number">1.1.</span> <span class="nav-text">一、组件初始化阶段（initialization）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、是组件的挂载阶段-Mounting"><span class="nav-number">1.2.</span> <span class="nav-text">二、是组件的挂载阶段 (Mounting)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#componentWillMount"><span class="nav-number">1.2.1.</span> <span class="nav-text">componentWillMount:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#render"><span class="nav-number">1.2.2.</span> <span class="nav-text">render:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#componentDidMount"><span class="nav-number">1.2.3.</span> <span class="nav-text">componentDidMount:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、组件的更新阶段-update"><span class="nav-number">2.</span> <span class="nav-text">三、组件的更新阶段(update)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#componentWillReceiveProps-nextProps"><span class="nav-number">2.0.1.</span> <span class="nav-text">componentWillReceiveProps(nextProps)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#shouldComponentUpdate-nextProps-nextState"><span class="nav-number">2.0.2.</span> <span class="nav-text">shouldComponentUpdate(nextProps, nextState)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#componentWillUpdate-nextProps-nextState"><span class="nav-number">2.0.3.</span> <span class="nav-text">componentWillUpdate(nextProps, nextState)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#render-1"><span class="nav-number">2.0.4.</span> <span class="nav-text">render</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#componentDidUpdate-prevProps-prevState"><span class="nav-number">2.0.5.</span> <span class="nav-text">componentDidUpdate(prevProps, prevState)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-父组件重新render"><span class="nav-number">2.1.</span> <span class="nav-text">1.父组件重新render</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-组件本身调用setState，无论state有没有变化。可通过shouldComponentUpdate方法优化"><span class="nav-number">2.2.</span> <span class="nav-text">2.组件本身调用setState，无论state有没有变化。可通过shouldComponentUpdate方法优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、卸载阶段"><span class="nav-number">2.3.</span> <span class="nav-text">四、卸载阶段</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#React-v16-4-的生命周期"><span class="nav-number">3.</span> <span class="nav-text">React v16.4 的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#getDerivedStateFromProps"><span class="nav-number">3.1.</span> <span class="nav-text">getDerivedStateFromProps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getSnapshotBeforeUpdate"><span class="nav-number">3.2.</span> <span class="nav-text">getSnapshotBeforeUpdate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-初始化"><span class="nav-number">3.3.</span> <span class="nav-text">1.初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-卸载阶段"><span class="nav-number">3.4.</span> <span class="nav-text">3.卸载阶段</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yezi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
