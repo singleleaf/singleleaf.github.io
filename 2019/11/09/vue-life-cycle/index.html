@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="vue,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="在程序开发中，是要使用对象的。那么，对象的生命周期就是：从对象的创建，到使用对象，到对象的消亡就是对象的生命周期。 Vue实例，vue组件实例就是vue对象，也是对象。所以，vue的生命周期和对象的生命周期是同样的道理。Vue实例有一个完整的生命周期，也就是从开始创建、初始化数据、编译模板、挂载Dom、渲染→更新→渲染、销毁等一系列过程，我们称这是Vue的生命周期。通俗说就是Vue实例从创建到销毁">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue生命周期和钩子函数">
+<meta property="og:url" content="http://techstudyblog.top/2019/11/09/vue-life-cycle/index.html">
+<meta property="og:site_name" content="Study Blog">
+<meta property="og:description" content="在程序开发中，是要使用对象的。那么，对象的生命周期就是：从对象的创建，到使用对象，到对象的消亡就是对象的生命周期。 Vue实例，vue组件实例就是vue对象，也是对象。所以，vue的生命周期和对象的生命周期是同样的道理。Vue实例有一个完整的生命周期，也就是从开始创建、初始化数据、编译模板、挂载Dom、渲染→更新→渲染、销毁等一系列过程，我们称这是Vue的生命周期。通俗说就是Vue实例从创建到销毁">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://techstudyblog.top/2019/11/09/vue-life-cycle/lifecycle.png">
+<meta property="og:image" content="http://techstudyblog.top/2019/11/09/vue-life-cycle/practice.jpg">
+<meta property="og:image" content="http://techstudyblog.top/2019/11/09/vue-life-cycle/update.jpg">
+<meta property="og:updated_time" content="2019-11-09T03:54:58.714Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue生命周期和钩子函数">
+<meta name="twitter:description" content="在程序开发中，是要使用对象的。那么，对象的生命周期就是：从对象的创建，到使用对象，到对象的消亡就是对象的生命周期。 Vue实例，vue组件实例就是vue对象，也是对象。所以，vue的生命周期和对象的生命周期是同样的道理。Vue实例有一个完整的生命周期，也就是从开始创建、初始化数据、编译模板、挂载Dom、渲染→更新→渲染、销毁等一系列过程，我们称这是Vue的生命周期。通俗说就是Vue实例从创建到销毁">
+<meta name="twitter:image" content="http://techstudyblog.top/2019/11/09/vue-life-cycle/lifecycle.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://techstudyblog.top/2019/11/09/vue-life-cycle/">
+
+
+
+
+
+  <title>Vue生命周期和钩子函数 | Study Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Study Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不仅有工作，更有生活,人生需要多经历，才会懂得珍惜</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techstudyblog.top/2019/11/09/vue-life-cycle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yezi">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Study Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vue生命周期和钩子函数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-09T01:13:12+08:00">
+                2019-11-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue/" itemprop="url" rel="index">
+                    <span itemprop="name">Vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在程序开发中，是要使用对象的。那么，对象的生命周期就是：从对象的创建，到使用对象，到对象的消亡就是对象的生命周期。</p>
+<p>Vue实例，vue组件实例就是vue对象，也是对象。所以，vue的生命周期和对象的生命周期是同样的道理。Vue实例有一个完整的生命周期，也就是从开始创建、初始化数据、编译模板、挂载Dom、渲染→更新→渲染、销毁等一系列过程，我们称这是Vue的生命周期。通俗说就是Vue实例从创建到销毁的过程，就是生命周期。<br><a id="more"></a><br><img src="/2019/11/09/vue-life-cycle/lifecycle.png" alt="lifecycle"></p>
+<ol>
+<li>实例化vue(组件)对象：new Vue()</li>
+<li>初始化事件和生命周期 init events 和 init cycle</li>
+<li>beforeCreate函数：<br>在实例初始化之后，数据观测 (data observer) 和 event/watcher 事件配置之前被调用。即此时vue（组件）对象被创建了，但是vue对象的属性还没有绑定，如data属性，computed属性还没有绑定，即没有值。此时还没有数据和真实DOM。即：属性还没有赋值，也没有动态创建template属性对应的HTML元素（二阶段的createUI函数还没有执行）</li>
+<li>挂载数据（属性赋值）<br>包括 属性和computed的运算</li>
+<li>Created函数：</li>
+</ol>
+<p>vue对象的属性有值了，但是DOM还没有生成，$el属性还不存在。此时有数据了，但是还没有真实的DOM。 即：data，computed都执行了。属性已经赋值，但没有动态创建template属性对应的HTML元素，所以，此时如果更改数据不会触发updated函数<br> 如果：数据的初始值就来自于后端，可以发送ajax，或者fetch请求获取数据，但是，此时不会触发updated函数。</p>
+<ol start="6">
+<li>检查<br>1）检查是否有el属性<br>检查vue配置，即new Vue{}里面的el项是否存在，有就继续检查template项。没有则等到手动绑定调用vm.$mount()<br>完成了全局变量$el的绑定。<br>2）检查是否有template属性<br>检查配置中的template项，如果没有template进行填充被绑定区域，则被绑定区域的el对象的outerHTML（即整个#app DOM对象，包括<div id="”app”">和</div>标签）都作为被填充对象替换掉填充区域<br>即：如果vue对象中有 template属性，那么，template后面的HTML会替换$el对应的内容。如果有render属性，那么render就会替换template。<br>即：优先关系时： render  &gt;  template &gt; el。</li>
+<li>beforeMount函数：<br>模板编译(template)、数据挂载(把数据显示在模板里)之前执行的钩子函数。<br>8.模板编译：用vue对象的数据（属性）替换模板中的内容<br>9.Monuted函数：<br>模板编译完成，数据挂载完毕<br>即：此时已经把数据挂载到了页面上，所以，页面上能够看到正确的数据了。</li>
+</ol>
+<p>一般来说，我们在此处发送异步请求（ajax，fetch，axios等），获取服务器上的数据，显示在DOM里。此时this.$el里有值，但是数据还没有挂载到页面上，此时页面的变量还没有变替换</p>
+<p>10.beforeUpdate函数：</p>
+<p>组件更新之前执行的函数，只有数据更新后，才能调用（触发）beforeUpdate，注意：此数据一定是在模板上出现的数据，否则，不会，也没有必要触发组件更新（因为数据不出现在模板里，就没有必要再次渲染）</p>
+<p>数据更新了，但是，vue（组件）对象对应的dom中的内部（innerHTML）没有变，所以叫作组件更新前</p>
+<p>11.updated函数：</p>
+<p>组件更新之后执行的函数</p>
+<p>vue（组件）对象对应的dom中的内部（innerHTML）改变了，所以，叫作组件更新之后</p>
+<p>12.activated函数：keep-alive组件激活时调用</p>
+<p>13.deactivated函数：keep-alive组件停用时调用</p>
+<p>14.beforeDestroy：vue（组件）对象销毁之前 。一般在这里做一些善后工作，例如清除计时器、清除非指令绑定的事件等等</p>
+<p>15.destroyed：vue组件销毁后</p>
+<p>实例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"IE=edge"</span>&gt;</span><br><span class="line">    &lt;title&gt;<span class="xml"><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line">    &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">""</span>&gt;</span><br><span class="line">    &lt;script src=<span class="string">"vue.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">&lt;<span class="regexp">/head&gt;</span></span><br><span class="line"><span class="regexp">&lt;body&gt;</span></span><br><span class="line"><span class="regexp"> &lt;div id="app"&gt;</span></span><br><span class="line"><span class="regexp">        &lt;aaa&gt;&lt;/</span>aaa&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    &lt;template id="aaa"&gt;</span></span><br><span class="line"><span class="regexp">        &lt;div&gt;</span></span><br><span class="line"><span class="regexp">            &lt;p class="myp"&gt;A组件&lt;/</span>p&gt;</span><br><span class="line">            &lt;button @click=<span class="string">"destroy"</span>&gt;destroy&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">            &lt;input type="text" v-model="msg"&gt;</span></span><br><span class="line"><span class="regexp">            &lt;p&gt;msg:&#123;&#123;msg&#125;&#125;&lt;/</span>p&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>template&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"> &lt;script&gt;</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/生命周期：初始化阶段 运行中阶段 销毁阶段</span></span><br><span class="line"><span class="regexp">    Vue.component("aaa",&#123;</span></span><br><span class="line"><span class="regexp">        template:"#aaa",</span></span><br><span class="line"><span class="regexp">        data:function()&#123;</span></span><br><span class="line"><span class="regexp">            return &#123;msg:'hello'&#125;</span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        timer:null,</span></span><br><span class="line"><span class="regexp">        methods:&#123;</span></span><br><span class="line"><span class="regexp">            destroy:function()&#123;</span></span><br><span class="line"><span class="regexp">                this.msg="修改数据"</span></span><br><span class="line"><span class="regexp">                console.log("aaa");</span></span><br><span class="line"><span class="regexp">            &#125;</span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        beforeCreate:function()&#123;</span></span><br><span class="line"><span class="regexp">            console.log('beforeCreate')</span></span><br><span class="line"><span class="regexp">            console.log(this.msg)</span></span><br><span class="line"><span class="regexp">            console.log(this.$el)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        created:function()&#123;</span></span><br><span class="line"><span class="regexp">            console.log('created ')</span></span><br><span class="line"><span class="regexp">            console.log(this.msg)</span></span><br><span class="line"><span class="regexp">            console.log(this.$el)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        beforeMount:function()&#123;</span></span><br><span class="line"><span class="regexp">            console.log('beforeMount ')</span></span><br><span class="line"><span class="regexp">            console.log(this.msg)</span></span><br><span class="line"><span class="regexp">            console.log(this.$el)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        mounted:function()&#123;</span></span><br><span class="line"><span class="regexp">            console.log('mounted ')</span></span><br><span class="line"><span class="regexp">            console.log(this.msg)</span></span><br><span class="line"><span class="regexp">            console.log(this.$el)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        beforeUpdate:function()&#123;</span></span><br><span class="line"><span class="regexp">            /</span><span class="regexp">/这里不能更改数据，否则会陷入死循环</span></span><br><span class="line"><span class="regexp">            console.log('beforeUpdate ')</span></span><br><span class="line"><span class="regexp">            console.log(this.msg)</span></span><br><span class="line"><span class="regexp">            console.log(this.$el)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        updated:function()&#123;</span></span><br><span class="line"><span class="regexp">            /</span><span class="regexp">/这里不能更改数据，否则会陷入死循环</span></span><br><span class="line"><span class="regexp">            console.log('updated')</span></span><br><span class="line"><span class="regexp">            console.log(this.msg)</span></span><br><span class="line"><span class="regexp">            console.log(this.$el)</span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        beforeDestroy:function()&#123;</span></span><br><span class="line"><span class="regexp">            console.log('beforeDestory')</span></span><br><span class="line"><span class="regexp">            console.log(this.msg)</span></span><br><span class="line"><span class="regexp">            console.log(this.$el)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        destroyed:function()&#123;</span></span><br><span class="line"><span class="regexp">            console.log('destroyed')</span></span><br><span class="line"><span class="regexp">            console.log(this.msg)</span></span><br><span class="line"><span class="regexp">            console.log(this.$el)</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    new Vue(&#123;</span></span><br><span class="line"><span class="regexp">    &#125;).$mount('#app')</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;/</span>script&gt;</span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>运行后，控制台打印效果如下：<br><img src="/2019/11/09/vue-life-cycle/practice.jpg" alt="practice"><br>修改输入框的输入值之后，控制台的打印效果如下：<br><img src="/2019/11/09/vue-life-cycle/update.jpg" alt="update"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/03/Vue基础知识/" rel="next" title="Ｖｕｅ基础知识">
+                <i class="fa fa-chevron-left"></i> Ｖｕｅ基础知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/09/vue-keep-alive/" rel="prev" title="Vue中的keep-alive">
+                Vue中的keep-alive <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="yezi">
+          <p class="site-author-name" itemprop="name">yezi</p>
+           
+              <p class="site-description motion-element" itemprop="description">越努力越幸运！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yezi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
