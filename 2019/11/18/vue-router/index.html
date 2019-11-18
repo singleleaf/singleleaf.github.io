@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="vue,vue-router,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="这里的路由SPA（单页应用）的路径管理器。再通俗的说，vue-router就是WebApp的链接路径管理系统vue-router是Vue.js官方的路由插件，它和vue.js是深度集成的，适合用于构建单页面应用。vue的单页面应用是基于路由和组件的，路由用于设定访问路径，并将路径和组件映射起来。传统的页面应用，是用一些超链接来实现页面切换和跳转的。在vue-router单页面应用中，则是路径之间的">
+<meta name="keywords" content="vue,vue-router">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-router">
+<meta property="og:url" content="http://techstudyblog.top/2019/11/18/vue-router/index.html">
+<meta property="og:site_name" content="Study Blog">
+<meta property="og:description" content="这里的路由SPA（单页应用）的路径管理器。再通俗的说，vue-router就是WebApp的链接路径管理系统vue-router是Vue.js官方的路由插件，它和vue.js是深度集成的，适合用于构建单页面应用。vue的单页面应用是基于路由和组件的，路由用于设定访问路径，并将路径和组件映射起来。传统的页面应用，是用一些超链接来实现页面切换和跳转的。在vue-router单页面应用中，则是路径之间的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://techstudyblog.top/2019/11/18/vue-router/route.png">
+<meta property="og:image" content="http://techstudyblog.top/2019/11/18/vue-router/router.png">
+<meta property="og:updated_time" content="2019-11-18T15:05:50.105Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue-router">
+<meta name="twitter:description" content="这里的路由SPA（单页应用）的路径管理器。再通俗的说，vue-router就是WebApp的链接路径管理系统vue-router是Vue.js官方的路由插件，它和vue.js是深度集成的，适合用于构建单页面应用。vue的单页面应用是基于路由和组件的，路由用于设定访问路径，并将路径和组件映射起来。传统的页面应用，是用一些超链接来实现页面切换和跳转的。在vue-router单页面应用中，则是路径之间的">
+<meta name="twitter:image" content="http://techstudyblog.top/2019/11/18/vue-router/route.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://techstudyblog.top/2019/11/18/vue-router/">
+
+
+
+
+
+  <title>vue-router | Study Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Study Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不仅有工作，更有生活,人生需要多经历，才会懂得珍惜</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techstudyblog.top/2019/11/18/vue-router/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yezi">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Study Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vue-router</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-18T22:57:16+08:00">
+                2019-11-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue/" itemprop="url" rel="index">
+                    <span itemprop="name">Vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这里的路由SPA（单页应用）的路径管理器。再通俗的说，vue-router就是WebApp的链接路径管理系统<br>vue-router是Vue.js官方的路由插件，它和vue.js是深度集成的，适合用于构建单页面应用。vue的单页面应用是基于路由和组件的，路由用于设定访问路径，并将路径和组件映射起来。传统的页面应用，是用一些超链接来实现页面切换和跳转的。在vue-router单页面应用中，则是路径之间的切换，也就是组件的切换。路由模块的本质 就是建立起url和页面之间的映射关系。</p>
+<h4 id="三个基本的概念-route-routes-router"><a href="#三个基本的概念-route-routes-router" class="headerlink" title="三个基本的概念 route, routes, router"></a>三个基本的概念 route, routes, router</h4><ol>
+<li>route，它是一条路由，由这个英文单词也可以看出来，它是单数， Home按钮  =&gt; home内容， 这是一条route,  about按钮 =&gt; about 内容， 这是另一条路由。</li>
+<li>routes 是一组路由，把上面的每一条路由组合起来，形成一个数组。[{home 按钮 =&gt;home内容 }， { about按钮 =&gt; about 内容}]</li>
+<li>router 是一个机制，相当于一个管理者，它来管理路由。因为routes 只是定义了一组路由，它放在哪里是静止的，当真正来了请求，怎么办？ 就是当用户点击home 按钮的时候，怎么办？这时router 就起作用了，它到routes 中去查找，去找到对应的 home 内容，所以页面中就显示了 home 内容。</li>
+<li>客户端中的路由，实际上就是dom 元素的显示和隐藏。当页面中显示home 内容的时候，about 中的内容全部隐藏，反之也是一样。客户端路由有两种实现方式：基于hash 和基于html5 history api<br><strong>vue-router中的路由也是基于上面的内容来实现的</strong><a id="more"></a>
+<h5 id="Hash模式："><a href="#Hash模式：" class="headerlink" title="Hash模式："></a>Hash模式：</h5>vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 hash（#）是URL 的锚点，代表的是网页中的一个位置，单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页，也就是说hash 出现在 URL 中，但不会被包含在 http 请求中，对后端完全没有影响，因此改变 hash 不会重新加载页面；同时每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置；所以说Hash模式通过锚点值的改变，根据不同的值，渲染指定DOM位置的不同数据。hash 模式的原理是 onhashchange 事件(监测hash值变化)，可以在 window 对象上监听这个事件。<h5 id="History模式："><a href="#History模式：" class="headerlink" title="History模式："></a>History模式：</h5>由于hash模式会在url中自带#，如果不想要很丑的 hash，我们可以用路由的 history 模式，只需要在配置路由规则时，加入”mode: ‘history’”,这种模式充分利用了html5 history interface 中新增的 pushState() 和 replaceState() 方法。这两个方法应用于浏览器记录栈，在当前已有的 back、forward、go 基础之上，它们提供了对历史记录修改的功能。只是当它们执行修改时，虽然改变了当前的 URL ，但浏览器不会立即向后端发送请求。<br>当你使用 history 模式时，URL 就像正常的 url，例如 <a href="http://yoursite.com/user/id，比较好看！" target="_blank" rel="noopener">http://yoursite.com/user/id，比较好看！</a><br>不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 <a href="http://oursite.com/user/id" target="_blank" rel="noopener">http://oursite.com/user/id</a> 就会返回 404，这就不好看了。<br>所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html 页面，这个页面就是你 app 依赖的页面。<h4 id="使用路由模块来实现页面跳转的方式"><a href="#使用路由模块来实现页面跳转的方式" class="headerlink" title="使用路由模块来实现页面跳转的方式"></a>使用路由模块来实现页面跳转的方式</h4>方式1：直接修改地址栏<br>方式2：this.$router.push(‘路由地址’)<br>方式3：<router-link to="路由地址"></router-link><h4 id="vue-router使用方式"><a href="#vue-router使用方式" class="headerlink" title="vue-router使用方式"></a>vue-router使用方式</h4>1:下载 npm i vue-router -S<br>2:在main.js中引入 import VueRouter from ‘vue-router’;<br>3:安装插件Vue.use(VueRouter);<br>4:创建路由对象并配置路由规则 let router = new VueRouter({routes:[{path:’/home’,component:Home}]});<br>5:将其路由对象传递给Vue的实例，options中加入 router:router<br>6:在app.vue中留坑 <router-view></router-view><h4 id="vue-router参数传递"><a href="#vue-router参数传递" class="headerlink" title="vue-router参数传递"></a>vue-router参数传递</h4><h6 id="1-用name传递参数"><a href="#1-用name传递参数" class="headerlink" title="1.用name传递参数"></a>1.用name传递参数</h6>在路由文件src/router/index.js里配置name属性<br>routes: [<br> {<br>   path: ‘/‘,<br>   name: ‘Hello’,<br>   component: Hello<br> }<br>]<br>模板里(src/App.vue)用$route.name来接收 比如：<p></p><br>2 通过<router-link> 标签中的to传参<h6 id="这种传参方法的基本语法："><a href="#这种传参方法的基本语法：" class="headerlink" title="这种传参方法的基本语法："></a>这种传参方法的基本语法：</h6></router-link></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;router-link :to=<span class="string">"&#123;name:xxx,params:&#123;key:value&#125;&#125;"</span>&gt;valueString&lt;<span class="regexp">/router-link&gt;</span></span><br></pre></td></tr></table></figure>
+<p>比如先在src/App.vue文件中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;router-link :to=<span class="string">"&#123;name:'hi1',params:&#123;username:'jspang',id:'555'&#125;&#125;"</span>&gt;Hi页面<span class="number">1</span>&lt;<span class="regexp">/router-link&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后把src/router/index.js文件里给hi1配置的路由起个name,就叫hi1.<br>{path:’/hi1’,name:’hi1’,component:Hi1}<br>最后在模板里(src/components/Hi1.vue)用$route.params.username进行接收.<br>-</p>
+<h6 id="3-用url传递参数—-在配置文件里以冒号的形式设置参数。"><a href="#3-用url传递参数—-在配置文件里以冒号的形式设置参数。" class="headerlink" title="3 用url传递参数—-在配置文件里以冒号的形式设置参数。"></a>3 用url传递参数—-在配置文件里以冒号的形式设置参数。</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    path:<span class="string">'/params/:newsId/:newsTitle'</span>,</span><br><span class="line">    component:Params</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们需要传递参数是新闻ID（newsId）和新闻标题（newsTitle）.所以我们在路由配置文件里制定了这两个值。</p>
+<p>在src/components目录下建立我们params.vue组件，也可以说是页面。我们在页面里输出了url传递的的新闻ID和新闻标题。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h2&gt;&#123;&#123; msg &#125;&#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">        &lt;p&gt;新闻ID：&#123;&#123; $route.params.newsId&#125;&#125;&lt;/</span>p&gt;</span><br><span class="line">        &lt;p&gt;新闻标题：&#123;&#123; $route.params.newsTitle&#125;&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/template&gt;</span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp">export default &#123;</span></span><br><span class="line"><span class="regexp">  name: 'params',</span></span><br><span class="line"><span class="regexp">  data () &#123;</span></span><br><span class="line"><span class="regexp">    return &#123;</span></span><br><span class="line"><span class="regexp">      msg: 'params page'</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">&lt;/</span>script&gt;</span><br></pre></td></tr></table></figure></p>
+<h6 id="4-使用path来匹配路由，然后通过query来传递参数"><a href="#4-使用path来匹配路由，然后通过query来传递参数" class="headerlink" title="4 使用path来匹配路由，然后通过query来传递参数"></a>4 使用path来匹配路由，然后通过query来传递参数</h6><p><router-link :to="{ name:'Query',query: { queryId:  status }}"><br>     router-link跳转Query<br></router-link></p>
+<p>对应路由配置：</p>
+<p>   {<br>     path: ‘/query’,<br>     name: ‘Query’,<br>     component: Query<br>   }<br>于是我们可以获取参数：</p>
+<p>this.$route.query.queryId</p>
+<h6 id="5-route-和-router-的区别"><a href="#5-route-和-router-的区别" class="headerlink" title="5 $route 和 $router 的区别"></a>5 $route 和 $router 的区别</h6><p><img src="/2019/11/18/vue-router/route.png" alt="route"><br><img src="/2019/11/18/vue-router/router.png" alt="router"><br><strong> $route 是“路由信息对象”，包括 path，params，hash，query，fullPath，matched，name 等路由信息参数。</strong></p>
+<p>① $route.path<br>字符串，对应当前路由的路径，总是解析为绝对路径，如 “/order”。</p>
+<p>② $route.params<br>一个 key/value 对象，包含了 动态片段 和 全匹配片段，<br>如果没有路由参数，就是一个空对象。</p>
+<p>③ $route.query<br>一个 key/value 对象，表示 URL 查询参数。<br>例如，对于路径 /foo?user=1，则有 $route.query.user为1，<br>如果没有查询参数，则是个空对象。</p>
+<p>④ $route.hash<br>当前路由的 hash 值 (不带 #) ，如果没有 hash 值，则为空字符串。</p>
+<p>⑤ $route.fullPath<br>完成解析后的 URL，包含查询参数和 hash 的完整路径。</p>
+<p>⑥ $route.matched<br>数组，包含当前匹配的路径中所包含的所有片段所对应的配置参数对象。</p>
+<p>⑦ $route.name 当前路径名字<br><strong><br> $router 是“路由实例”对象，即使用 new VueRouter创建的实例，包括了路由的跳转方法，钩子函数等。</strong></p>
+<p>$router常见跳转方法:</p>
+<p><button @click="goToMenu" class="btn btn-success">Let’s order！</button><br>…..</p>
+<script>
+  export default{
+    methods:{
+      goToMenu(){
+        this.$router.go(-1)//跳转到上一次浏览的页面
+        this.$router.replace('/menu')//指定跳转的地址
+        this.$router.replace({name:'menuLink'})//指定跳转路由的名字下
+        this.$router.push('/menu')//通过push进行跳转
+        this.$router.push({name:'menuLink'})//通过push进行跳转路由的名字下
+      }
+    }
+  }
+</script>
+$router.push和$router.replace的区别：
+
+使用push方法的跳转会向 history 栈添加一个新的记录，当我们点击浏览器的返回按钮时可以看到之前的页面。
+使用replace方法不会向 history 添加新记录，而是替换掉当前的 history 记录，即当replace跳转到的网页后，‘后退’按钮不能查看之前的页面。
+
+6  如何设置404页面
+用户会经常输错页面，当用户输错页面时，我们希望给他一个友好的提示页面，这个页面就是我们常说的404页面。vue-router也为我们提供了这样的机制。
+
+设置我们的路由配置文件（/src/router/index.js）
+{
+   path:'*',
+   component:Error
+}
+这里的path:'*'就是输入地址不匹配时，自动显示出Error.vue的文件内容
+
+在/src/components/文件夹下新建一个Error.vue的文件。简单输入一些有关错误页面的内容。
+<template>
+    <div>
+        <h2></h2>
+    </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      msg: 'Error:404'
+    }
+  }
+}
+</script>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+            <a href="/tags/vue-router/" rel="tag"># vue-router</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/12/vue-slot/" rel="next" title="Vue中的slot">
+                <i class="fa fa-chevron-left"></i> Vue中的slot
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="yezi">
+          <p class="site-author-name" itemprop="name">yezi</p>
+           
+              <p class="site-description motion-element" itemprop="description">越努力越幸运！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#三个基本的概念-route-routes-router"><span class="nav-number">1.</span> <span class="nav-text">三个基本的概念 route, routes, router</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Hash模式："><span class="nav-number">1.1.</span> <span class="nav-text">Hash模式：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#History模式："><span class="nav-number">1.2.</span> <span class="nav-text">History模式：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用路由模块来实现页面跳转的方式"><span class="nav-number">2.</span> <span class="nav-text">使用路由模块来实现页面跳转的方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vue-router使用方式"><span class="nav-number">3.</span> <span class="nav-text">vue-router使用方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vue-router参数传递"><span class="nav-number">4.</span> <span class="nav-text">vue-router参数传递</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-用name传递参数"><span class="nav-number">4.0.1.</span> <span class="nav-text">1.用name传递参数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#这种传参方法的基本语法："><span class="nav-number">4.0.2.</span> <span class="nav-text">这种传参方法的基本语法：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-用url传递参数—-在配置文件里以冒号的形式设置参数。"><span class="nav-number">4.0.3.</span> <span class="nav-text">3 用url传递参数—-在配置文件里以冒号的形式设置参数。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4-使用path来匹配路由，然后通过query来传递参数"><span class="nav-number">4.0.4.</span> <span class="nav-text">4 使用path来匹配路由，然后通过query来传递参数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-route-和-router-的区别"><span class="nav-number">4.0.5.</span> <span class="nav-text">5 $route 和 $router 的区别</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number"></span> <span class="nav-text"></span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yezi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
