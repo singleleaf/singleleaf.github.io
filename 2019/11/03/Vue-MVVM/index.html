@@ -98,16 +98,16 @@
 <meta name="keywords" content="js,Vue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue ＭＶＶ模型">
-<meta property="og:url" content="http://techstudyblog.top/2019/11/03/Vue-MVVM/index.html">
+<meta property="og:url" content="http://techstudyblog.top/2019/11/03/vue-mvvm/index.html">
 <meta property="og:site_name" content="Study Blog">
 <meta property="og:description" content="Vue简介vue是一个构建用户界面的框架。是一个轻量级mvvm（model-view-ViewModel）框架，和angular一样是所谓的双向数据绑定，数据驱动和组件化的前端开发，实现响应式的数据绑定和组合试图组件，容易上手，小巧。 ＭＶＶＭ（ Model-View-ViewModel）模型View 代表UI 组件，它负责将数据模型转化成UI 展现出来ViewModel 是一个同步View 和">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://techstudyblog.top/2019/11/03/Vue-MVVM/state.png">
+<meta property="og:image" content="http://techstudyblog.top/2019/11/03/vue-mvvm/state.png">
 <meta property="og:updated_time" content="2019-11-03T07:49:37.287Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue ＭＶＶ模型">
 <meta name="twitter:description" content="Vue简介vue是一个构建用户界面的框架。是一个轻量级mvvm（model-view-ViewModel）框架，和angular一样是所谓的双向数据绑定，数据驱动和组件化的前端开发，实现响应式的数据绑定和组合试图组件，容易上手，小巧。 ＭＶＶＭ（ Model-View-ViewModel）模型View 代表UI 组件，它负责将数据模型转化成UI 展现出来ViewModel 是一个同步View 和">
-<meta name="twitter:image" content="http://techstudyblog.top/2019/11/03/Vue-MVVM/state.png">
+<meta name="twitter:image" content="http://techstudyblog.top/2019/11/03/vue-mvvm/state.png">
 
 
 
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://techstudyblog.top/2019/11/03/Vue-MVVM/">
+  <link rel="canonical" href="http://techstudyblog.top/2019/11/03/vue-mvvm/">
 
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://techstudyblog.top/2019/11/03/Vue-MVVM/">
+    <link itemprop="mainEntityOfPage" href="http://techstudyblog.top/2019/11/03/vue-mvvm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="yezi">
@@ -375,7 +375,7 @@
 
       
         <h3 id="Vue简介"><a href="#Vue简介" class="headerlink" title="Vue简介"></a>Vue简介</h3><p>vue是一个构建用户界面的框架。是一个轻量级mvvm（model-view-ViewModel）框架，和angular一样是所谓的双向数据绑定，数据驱动和组件化的前端开发，实现响应式的数据绑定和组合试图组件，容易上手，小巧。</p>
-<h3 id="MVVM（-Model-View-ViewModel）模型"><a href="#MVVM（-Model-View-ViewModel）模型" class="headerlink" title="ＭＶＶＭ（ Model-View-ViewModel）模型"></a>ＭＶＶＭ（ Model-View-ViewModel）模型</h3><p><img src="/2019/11/03/Vue-MVVM/state.png" alt="model"><br><strong>View</strong> 代表UI 组件，它负责将数据模型转化成UI 展现出来<br><strong>ViewModel</strong> 是一个同步View 和 Model的对象<br><strong>Mode</strong>l 层代表数据模型，也可以在Model中定义数据修改和操作的业务逻辑；<br><a id="more"></a><br> 在MVVM架构下，View 和 Model 之间其实并没有直接的联系，而是通过ViewModel进行交互，Model 和 ViewModel 之间的交互是双向的， 因此View 数据的变化会同步到Model中，而Model 数据的变化也会立即反应到View 上</p>
+<h3 id="MVVM（-Model-View-ViewModel）模型"><a href="#MVVM（-Model-View-ViewModel）模型" class="headerlink" title="ＭＶＶＭ（ Model-View-ViewModel）模型"></a>ＭＶＶＭ（ Model-View-ViewModel）模型</h3><p><img src="/2019/11/03/vue-mvvm/state.png" alt="model"><br><strong>View</strong> 代表UI 组件，它负责将数据模型转化成UI 展现出来<br><strong>ViewModel</strong> 是一个同步View 和 Model的对象<br><strong>Mode</strong>l 层代表数据模型，也可以在Model中定义数据修改和操作的业务逻辑；<br><a id="more"></a><br> 在MVVM架构下，View 和 Model 之间其实并没有直接的联系，而是通过ViewModel进行交互，Model 和 ViewModel 之间的交互是双向的， 因此View 数据的变化会同步到Model中，而Model 数据的变化也会立即反应到View 上</p>
 <h4 id="View和Model、ViewModel之间关系"><a href="#View和Model、ViewModel之间关系" class="headerlink" title="Ｖｉｅｗ和Ｍｏｄｅｌ、ＶｉｅｗＭｏｄｅｌ之间关系"></a>Ｖｉｅｗ和Ｍｏｄｅｌ、ＶｉｅｗＭｏｄｅｌ之间关系</h4><p> ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，ViewModel里面包含DOM Listeners和Data Bindings，DOM Listeners和Data Bindings是实现双向绑定的关键。DOM Listeners监听页面所有View层DOM元素的变化，当发生变化，Model层的数据随之变化；Data Bindings监听Model层的数据，当数据发生变化，View层的DOM元素随之变化。</p>
 <h3 id="MVVM好处"><a href="#MVVM好处" class="headerlink" title="ＭＶＶＭ好处"></a>ＭＶＶＭ好处</h3><ol>
 <li><p>低耦合。View可以独立于Model变化和修改，一个ViewModel可以绑定到不同的View上，当View变化的时候Model可以不变，当Model变化的时候View也可以不变。</p>
@@ -506,7 +506,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -517,7 +517,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -528,7 +528,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
