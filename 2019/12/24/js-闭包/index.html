@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="js,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="什么是闭包简单来说，闭包是指可以访问另一个函数作用域变量的函数，一般是定义在外层函数中的内层函数。 为什么需要闭包呢局部变量无法共享和长久的保存，而全局变量可能造成变量污染，所以我们希望有一种机制既可以长久的保存变量又不会造成全局污染。 特点占用更多内存不容易被释放何时使用既想反复使用，又想避免全局污染">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js-闭包">
+<meta property="og:url" content="http://techstudyblog.top/2019/12/24/js-闭包/index.html">
+<meta property="og:site_name" content="Study Blog">
+<meta property="og:description" content="什么是闭包简单来说，闭包是指可以访问另一个函数作用域变量的函数，一般是定义在外层函数中的内层函数。 为什么需要闭包呢局部变量无法共享和长久的保存，而全局变量可能造成变量污染，所以我们希望有一种机制既可以长久的保存变量又不会造成全局污染。 特点占用更多内存不容易被释放何时使用既想反复使用，又想避免全局污染">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-23T16:40:20.436Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js-闭包">
+<meta name="twitter:description" content="什么是闭包简单来说，闭包是指可以访问另一个函数作用域变量的函数，一般是定义在外层函数中的内层函数。 为什么需要闭包呢局部变量无法共享和长久的保存，而全局变量可能造成变量污染，所以我们希望有一种机制既可以长久的保存变量又不会造成全局污染。 特点占用更多内存不容易被释放何时使用既想反复使用，又想避免全局污染">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://techstudyblog.top/2019/12/24/js-闭包/">
+
+
+
+
+
+  <title>js-闭包 | Study Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Study Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不仅有工作，更有生活,人生需要多经历，才会懂得珍惜</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://techstudyblog.top/2019/12/24/js-闭包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yezi">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Study Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">js-闭包</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-24T00:38:56+08:00">
+                2019-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="什么是闭包"><a href="#什么是闭包" class="headerlink" title="什么是闭包"></a>什么是闭包</h4><p>简单来说，闭包是指可以访问另一个函数作用域变量的函数，一般是定义在外层函数中的内层函数。</p>
+<h4 id="为什么需要闭包呢"><a href="#为什么需要闭包呢" class="headerlink" title="为什么需要闭包呢"></a>为什么需要闭包呢</h4><p>局部变量无法共享和长久的保存，而全局变量可能造成变量污染，所以我们希望有一种机制既可以长久的保存变量又不会造成全局污染。</p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><p>占用更多内存<br>不容易被释放<br>何时使用<br>既想反复使用，又想避免全局污染<br><a id="more"></a></p>
+<h4 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h4><p>1.定义外层函数，封装被保护的局部变量。 2.定义内层函数，执行对外部函数变量的操作。 3.外层函数返回内层函数的对象，并且外层函数被调用，结果保存在一个全局的变量中。<br><strong>常用方式：</strong></p>
+<h4 id="就是在一个函数内部创建另一个函数。"><a href="#就是在一个函数内部创建另一个函数。" class="headerlink" title="就是在一个函数内部创建另一个函数。"></a>就是在一个函数内部创建另一个函数。</h4><p>//通过闭包可以获得函数fn的局部变量user<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> user=<span class="string">'zhang'</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;<span class="comment">//通过匿名函数返回局部变量user</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(fn()());<span class="comment">//zhang  通过box()()来直接调用匿名函数返回值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b=fn();</span><br><span class="line"><span class="built_in">console</span>.log(b());<span class="comment">//zhang 另一种调用匿名函数返回值</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="通过闭包可以实现函数内的局部变量的累加："><a href="#通过闭包可以实现函数内的局部变量的累加：" class="headerlink" title="通过闭包可以实现函数内的局部变量的累加："></a>通过闭包可以实现函数内的局部变量的累加：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> num=<span class="number">100</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        num++;</span><br><span class="line">        <span class="keyword">return</span> num;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> b=fn();<span class="comment">//获得函数</span></span><br><span class="line"><span class="comment">//你会发现局部变量num并没有在内存当中消失</span></span><br><span class="line"><span class="built_in">console</span>.log(b());<span class="comment">//调用匿名函数</span></span><br><span class="line"><span class="built_in">console</span>.log(b());<span class="comment">//第二次调用匿名函数，实现累加</span></span><br></pre></td></tr></table></figure>
+<p> 由于在闭包所在的作用域返回的局部变量不会被销毁，所以会占用内存。过度的使用闭包会迫使性能下降，因此建议大家在有必要的情况下再使用闭包。<br>作用域链的机制会导致一个问题，在循环中里的匿名函数取得的任何变量都是最后一个值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr=[];</span><br><span class="line">    <span class="comment">//i为fn函数中的局部变量。</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</span><br><span class="line">        arr.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> b=fn();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;b.length;i++)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(b[i]());<span class="comment">//3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上示例输出的结果均是3，也就是循环结束后i的值。这是因为在for循环的过程当中，数组中的匿名函数并没有自我执行。当在调用匿名函数的时候，通过闭包获得的i已经是3了，所以每次输出的都是3。<br>如果想要输出的结果为0，1，2可以做如下的调整：<br> <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr=[];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</span><br><span class="line">        arr.push((<span class="function"><span class="keyword">function</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">            <span class="comment">//将立即执行函数返回的匿名函数放到数组中。</span></span><br><span class="line">            <span class="comment">//因为num为函数的参数，因此有自己独立的作用域</span></span><br><span class="line">            <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> num;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;)(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> b=fn();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;b.length;i++)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(b[i]());<span class="comment">//0，1，2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过匿名函数的立即执行，将立即执行后返回的函数直接赋值给数组arr。每次循环即将i的值传递给num，又因为num在函数中，所以有自己的独立作用域，因此num得到的值为每次循环传递进来的i值，即0，1，2</p>
+<p> 下来看一下关于闭包当中的this对象：<br>this对象指的是什么，这个要看函数所运行的环境。如果函数在全局范围内调用 ，函数内的this指向的是window对象。对象中的方法，通过闭包如果运行的环境为window时，则this为window。因为闭包并不是该对象的方法。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> color=<span class="string">"red"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.color;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj=&#123;</span><br><span class="line">    color:<span class="string">"yellow"</span>,</span><br><span class="line">    fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="comment">//返回匿名函数</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.color;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(fn());<span class="comment">//red  在外部直接调用this为window</span></span><br><span class="line"><span class="keyword">var</span> b=obj.fn();<span class="comment">//b为window下的变量,获得的值为obj对象下的fn方法返回的匿名函数</span></span><br><span class="line"><span class="built_in">console</span>.log(b());<span class="comment">//red  因为是在window环境下运行，所以this指缶的是window</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//可以通过call或apply改变函数内的this指向</span></span><br><span class="line"><span class="built_in">console</span>.log(b.call(obj));<span class="comment">//yellow</span></span><br><span class="line"><span class="built_in">console</span>.log(b.apply(obj));<span class="comment">//yellow</span></span><br><span class="line"><span class="built_in">console</span>.log(fn.call(obj));<span class="comment">//yellow</span></span><br><span class="line">通过变量可以获得上一个作用域中的<span class="keyword">this</span>指向</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> color=<span class="string">"red"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.color;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj=&#123;</span><br><span class="line">    color:<span class="string">"yellow"</span>,</span><br><span class="line">    fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> _this=<span class="keyword">this</span>;<span class="comment">//将this赋值给变量_this</span></span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> _this.color;<span class="comment">//通过_this获得上一个作用域中的this指向</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(fn());<span class="comment">//red</span></span><br><span class="line"><span class="keyword">var</span> b=obj.fn();</span><br><span class="line"><span class="built_in">console</span>.log(b());<span class="comment">//yellow</span></span><br><span class="line">可以通过构造方法传参来访问私有变量</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Desk</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> str=<span class="string">""</span>;<span class="comment">//局部变量str,默认值为""</span></span><br><span class="line">    <span class="keyword">this</span>.getStr=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.setStr=<span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">        str=value;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> desk=<span class="keyword">new</span> Desk();</span><br><span class="line"><span class="comment">//为构造函数的局部变量写入值。</span></span><br><span class="line">desk.setStr(<span class="string">"zhangPeiYue"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>//获取构造函数的局部变量<br>console.log(desk.getStr());//zhangPeiYue<br>闭包常见的作用<br>1、模拟块级作用域（匿名自执行函数）<br>if(){}for(){}等没有作用域，所以在其块内声明的变量，在外部是可以使用的。</p>
+<p>//javaScript没有块级作用域的概念<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;num;i++)&#123;&#125;</span><br><span class="line">    <span class="built_in">console</span>.log(i);<span class="comment">//在for外部i不会失败</span></span><br><span class="line">&#125;</span><br><span class="line">fn(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> a=<span class="number">13</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a);<span class="comment">//在if定义的变量在外部可以访问</span></span><br></pre></td></tr></table></figure></p>
+<p>通过匿名自执行函数可以模拟块级作用域</p>
+<p> (function(){<br>        //i在外部就不认识啦<br>        for(var i=0;i&lt;count;i++){}<br>  })();<br>  console.log(i);//报错，无法访问<br>由于外部无法访问自执行函数内的变量，因此在函数执行完后会立刻被销毁，在外部无法访问。从而可有效避免在多人开发时由于全局变量过多而造成的命名冲突问题。另外由于作用域链的机制，局部变量要比全局变量的访问速度更快，可以提升程序的运行速度！</p>
+<p>2、对结果进行缓存<br>写一个用于实现所有参数和的函数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> fn=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> sum=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="built_in">arguments</span>.length;i++)&#123;</span><br><span class="line">        sum+=<span class="built_in">arguments</span>[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(fn(<span class="number">1</span>,<span class="number">2</span>));<span class="comment">//3</span></span><br></pre></td></tr></table></figure></p>
+<p>以上函数接收一些number类型的参数，并返回这些参数之和。由于每次传递的参数相同，所以返回的结果是一样的。这样势必会造成了一种浪费，在此时咱们可以通过缓存机制来提高这个函数的性能。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fn=(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cache=&#123;&#125;<span class="comment">//将结果缓存到该对象中</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> str=<span class="built_in">JSON</span>.stringify(<span class="built_in">arguments</span>);</span><br><span class="line">        <span class="keyword">if</span>(cache[str])&#123;<span class="comment">//判断缓存中是否存在传递过来的参数，存在直接返回结果，无需计算</span></span><br><span class="line">            <span class="keyword">return</span> cache[str];</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;<span class="comment">//进行计算并返回结果</span></span><br><span class="line">            <span class="keyword">var</span> sum=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="built_in">arguments</span>.length;i++)&#123;</span><br><span class="line">                sum+=<span class="built_in">arguments</span>[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> cache[str]=sum;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<p>上面的示例将计算后的结果缓存到局部变量cache当中，在调用这个函数时，先在缓存中查找，如果找不到，则进行计算，然后将结果放到缓存中并返回，如果找到了，直接返回查找到的值。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/17/require-and-import/" rel="next" title="require-and-import">
+                <i class="fa fa-chevron-left"></i> require-and-import
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/31/css-hack/" rel="prev" title="css hack">
+                css hack <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="yezi">
+          <p class="site-author-name" itemprop="name">yezi</p>
+           
+              <p class="site-description motion-element" itemprop="description">越努力越幸运！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是闭包"><span class="nav-number">1.</span> <span class="nav-text">什么是闭包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么需要闭包呢"><span class="nav-number">2.</span> <span class="nav-text">为什么需要闭包呢</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特点"><span class="nav-number">3.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何使用"><span class="nav-number">4.</span> <span class="nav-text">如何使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#就是在一个函数内部创建另一个函数。"><span class="nav-number">5.</span> <span class="nav-text">就是在一个函数内部创建另一个函数。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过闭包可以实现函数内的局部变量的累加："><span class="nav-number">6.</span> <span class="nav-text">通过闭包可以实现函数内的局部变量的累加：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yezi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
